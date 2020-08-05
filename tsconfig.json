@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "declaration":true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "typeRoots": ["types/", "./node_modules/@types"],
+    "types": ["node", "jest"],
+    "baseUrl": "./src"
+  },
+  "include": [
+    "src/**/*",
+    "node_modules/@types/node/globals.d.ts",
+    "node_modules/@types/node/globals.d.ts",
+    "node_modules/@types/webpack-env/index.d.ts"
+  ],
+  "exclude": ["node_modules", "dist", "**/*.test.*"]
+}

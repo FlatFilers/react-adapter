@@ -1,0 +1,75 @@
+name: Lint and Test
+
+on:
+    pull_request:
+        branches:
+            - develop
+            - master
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Read .nvmrc
+                run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+                working-directory: ${{ env.working-directory }}
+                id: nvm
+
+            -   name: Use Node.js (.nvmrc)
+                uses: actions/setup-node@v1
+                with:
+                    node-version: "${{ steps.nvm.outputs.NVMRC }}"
+
+            -   name: Cache node modules
+                uses: actions/cache@v1
+                env:
+                    cache-name: cache-node-modules
+                with:
+                    path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+                    key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                    restore-keys: |
+                        ${{ runner.os }}-build-${{ env.cache-name }}-
+                        ${{ runner.os }}-build-
+                        ${{ runner.os }}-
+
+            -   name: install node modules
+                run: npm install
+                working-directory: ${{ env.working-directory }}
+
+            -   name: lint
+                run: npm run lint
+
+    test:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Read .nvmrc
+                run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+                id: nvm
+
+            -   name: Use Node.js (.nvmrc)
+                uses: actions/setup-node@v1
+                with:
+                    node-version: "${{ steps.nvm.outputs.NVMRC }}"
+
+            -   name: Cache node modules
+                uses: actions/cache@v1
+                env:
+                    cache-name: cache-node-modules
+                with:
+                    path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+                    key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                    restore-keys: |
+                        ${{ runner.os }}-build-${{ env.cache-name }}-
+                        ${{ runner.os }}-build-
+                        ${{ runner.os }}-
+            -   name: install node modules
+                run: npm install
+
+            -   name: run tests
+                run: npm test

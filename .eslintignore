@@ -3,6 +3,7 @@ dist
 __tests__
 public
 
+src/dev.index.tsx
 dist.index.tsx
 webpack.config.js
 webpack.dev.js

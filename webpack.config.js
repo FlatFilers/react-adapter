@@ -15,7 +15,7 @@ module.exports = {
     filename: 'index.js',
     path: path.join(__dirname, 'dist'),
     publicPath: process.env.DEPLOY_URL || '/',
-    library: 'react-adapter',
+    library: 'reactAdapter',
   },
   bail: true,
   devServer: {

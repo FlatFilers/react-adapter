@@ -1,7 +1,3 @@
-import * as React from 'react';
-
-const Flatfile: React.FC = () => {
-  return <div>flatfile</div>;
-};
+import Flatfile from './components';
 
 export default Flatfile;

@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+    # Cli
+    node:
+        image: node:12.18.3
+        container_name: node-cli
+        working_dir: /app
+        volumes:
+            - .:/app
+
+    # Serve source files
+    dev:
+        image: node:12.18.3
+        container_name: core-development
+        user: node
+        working_dir: /app
+        volumes:
+            - ./node_modules:/app/node_modules
+            - ./public:/app/public
+            - ./package.json:/app/package.json
+            - ./tsconfig.json:/app/tsconfig.json
+            - ./webpack.config.js:/app/webpack.config.js
+            - ./webpack.dev.js:/app/webpack.dev.js
+            # use src files
+            - ./src:/app/src
+        environment:
+            PORT: 8080
+            DOCKER_HOST: 0.0.0.0
+        ports:
+            - 8080:8080
+        command: npm run start
+
+    # Serve actual package dist files. Builds the dist files from source every time the container is started
+    pkg-sandbox:
+        build:
+            context: .
+            dockerfile: ./docker/Dockerfile
+        container_name: core-pkg-sandbox
+        working_dir: /app
+        stdin_open: true
+        volumes:
+            - ./tsconfig.json:/app/package/tsconfig.json
+            - ./src:/app/package/src
+            - ./docker/entrypoint.sh:/app/entrypoint.sh
+            - ./docker/sandbox/App.js:/app/sandbox/src/App.js
+        ports:
+            - 3000:3000
+        command: sh entrypoint.sh

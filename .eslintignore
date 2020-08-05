@@ -2,6 +2,7 @@ node_modules
 dist
 __tests__
 public
+docker/sandbox/
 
 src/dev.index.tsx
 dist.index.tsx

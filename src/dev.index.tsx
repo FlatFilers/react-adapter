@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-
-import Flatfile from './index';
+import FlatfileButton from './index';
 
 const ffOptions = {
   config: {
@@ -19,7 +18,7 @@ export const mount = (doc: Document) => {
   const container = doc.createElement('div');
   doc.body.appendChild(container);
 
-  render(<Flatfile flatfileOptions={ffOptions} />, container);
+  render(<FlatfileButton settings={ffOptions} />, container);
 };
 
 mount(document);

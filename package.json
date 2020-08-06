@@ -127,5 +127,8 @@
     "src/**/*.{js,jsx,ts,tsx}": [
       "prettier --check"
     ]
+  },
+  "dependencies": {
+    "@flatfile/adapter": "^2.0.0"
   }
 }

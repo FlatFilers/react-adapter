@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-const Button: React.FC = () => {
-  return <button>click me</button>;
+const Button: any = (props: any) => {
+  return <button onClick={props.clickFunction}>{props.text}</button>;
 };
 
 export default Button;

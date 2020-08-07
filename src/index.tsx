@@ -1,6 +1,6 @@
 import Button from './components/Button/Button';
-import Flatfile from './components/FlatFile';
+import FlatfileButton from './components/FlatFileButton';
 
 export { Button };
 
-export default Flatfile;
+export default FlatfileButton;

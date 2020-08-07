@@ -1,6 +1,7 @@
-import Button from './components/Button/Button';
+import FlatfileImporter from '@flatfile/adapter';
+import FlatfileResults from '@flatfile/adapter/build/main/results';
+import { ISettings as FlatfileSettings } from 'interfaces/settings';
+
 import FlatfileButton from './components/FlatFileButton';
 
-export { Button };
-
-export default FlatfileButton;
+export { FlatfileButton, FlatfileImporter, FlatfileResults, FlatfileSettings };

@@ -32,6 +32,9 @@
     "url": "https://github.com/FlatFilers/react-adapter/issues"
   },
   "homepage": "https://github.com/FlatFilers/react-adapter#readme",
+  "dependencies": {
+    "@flatfile/adapter": "^2.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.11.1",
     "@babel/preset-env": "^7.11.0",
@@ -80,6 +83,10 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.1.1"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "config": {
     "commitizen": {

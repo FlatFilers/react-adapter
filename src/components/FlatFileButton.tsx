@@ -4,8 +4,8 @@ import { IDataHookResponse } from '@flatfile/adapter/build/main/obj.validation-r
 import FlatfileResults from '@flatfile/adapter/build/main/results';
 import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
-import { IDictionary, ScalarDictionaryWithCustom } from '../interfaces/general';
 
+import { IDictionary, ScalarDictionaryWithCustom } from '../interfaces/general';
 import { ISettings } from '../interfaces/settings';
 
 const FlatfileButton: FC<

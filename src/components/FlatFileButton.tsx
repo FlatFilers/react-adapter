@@ -2,8 +2,7 @@ import FlatfileImporter, { FieldHookCallback } from '@flatfile/adapter';
 import CustomerObject from '@flatfile/adapter/build/main/obj.customer';
 import { IDataHookResponse } from '@flatfile/adapter/build/main/obj.validation-response';
 import FlatfileResults from '@flatfile/adapter/build/main/results';
-import * as React from 'react';
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { IDictionary, ScalarDictionaryWithCustom } from '../interfaces/general';
 import { ISettings } from '../interfaces/settings';

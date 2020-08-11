@@ -1,6 +1,6 @@
 # The Flatfile Component - @flatfile/react
 
-We've made it really simple for your the get started with Flatfile with our new Flatfile Component. Here's what you'll need to know to get started.
+We've made it really simple for you the get started with Flatfile with our new Flatfile Component. Here's what you'll need to know to get started.
 
 First, install the dependency via npm:
 
@@ -8,9 +8,9 @@ First, install the dependency via npm:
 
 This will give you access to the `<FlatfileButton />` component as well as the same basic functionality as our Adapter.
 
-## The FlatfileButton and FlatfileResults
+## The FlatfileButton usage
 
-`import { FlatfileButton, FlatfileResults } from '@flatfile/react'`
+`import { FlatfileButton } from '@flatfile/react'`
 
 | **<u>FlatfileButton Props</u>**                                                                                         | **<u>Info</u>**               | <u>**Example**</u>                     |
 | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------- | -------------------------------------- |

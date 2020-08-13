@@ -1,6 +1,6 @@
 # The Flatfile Component - @flatfile/react
 
-We've made it really simple for you the get started with Flatfile with our new Flatfile Component. Here's what you'll need to know to get started.
+We've made it really simple for you to get started with Flatfile with our new Flatfile Component. Here's what you'll need to know to get started.
 
 First, install the dependency via npm:
 

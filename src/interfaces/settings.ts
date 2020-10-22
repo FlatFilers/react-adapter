@@ -84,6 +84,11 @@ export interface ISettings {
    * Allows for additional rows to be added to the initial rows checked on import.
    */
   preloadRowCount?: number;
+
+  /**
+   * Allows for flagging the imports as being a non-production import.
+   */
+  devMode?: boolean;
 }
 
 export type IField = IFieldBase | IFieldSelect;

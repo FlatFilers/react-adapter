@@ -12,37 +12,35 @@ const config = {
 const license = 'aa921983-4db2-4da1-a580-fbca0b1c75b2';
 const customer = { userId: '12345' };
 
-const data = {
-  source: [
-    {
-      data: {
-        firstName: 'foo',
-        lastName: 'bar',
-        email: 'john@doe.com',
-        address: 'US',
-      },
-      errors: [{ key: 'firstName', message: 'foo' }],
+const data = [
+  {
+    data: {
+      firstName: 'foo',
+      lastName: 'bar',
+      email: 'john@doe.com',
+      address: 'US',
     },
-    {
-      data: {
-        firstName: 'Alice',
-        lastName: 'bar',
-        email: 'alice@doe.com',
-        address: 'US',
-      },
-      errors: [{ key: 'lastName', message: 'another message' }],
+    errors: [{ key: 'firstName', message: 'foo' }],
+  },
+  {
+    data: {
+      firstName: 'Alice',
+      lastName: 'bar',
+      email: 'alice@doe.com',
+      address: 'US',
     },
-    {
-      data: {
-        firstName: 'Henry',
-        lastName: 'Person',
-        email: 'henry@example.com',
-        address: 'US',
-      },
-      errors: [{ key: 'email', message: 'example.com is not allowed' }],
+    errors: [{ key: 'lastName', message: 'another message' }],
+  },
+  {
+    data: {
+      firstName: 'Henry',
+      lastName: 'Person',
+      email: 'henry@example.com',
+      address: 'US',
     },
-  ],
-};
+    errors: [{ key: 'email', message: 'example.com is not allowed' }],
+  },
+];
 
 export const mount = (doc: Document) => {
   const container = doc.createElement('div');

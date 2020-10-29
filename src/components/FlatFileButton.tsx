@@ -1,5 +1,6 @@
 import FlatfileImporter, { FieldHookCallback } from '@flatfile/adapter';
 import CustomerObject from '@flatfile/adapter/build/main/obj.customer';
+import LoadOptionsObject from '@flatfile/adapter/build/main/obj.load-options';
 import { IDataHookResponse } from '@flatfile/adapter/build/main/obj.validation-response';
 import FlatfileResults from '@flatfile/adapter/build/main/results';
 import React, { FC, useEffect, useState } from 'react';
@@ -30,6 +31,7 @@ const FlatfileButton: FC<
       importer: FlatfileImporter,
       launch: () => void
     ) => React.ReactElement;
+    source?: LoadOptionsObject;
   }
 > = ({
   settings,
@@ -42,6 +44,7 @@ const FlatfileButton: FC<
   fieldHooks,
   children,
   render,
+  source,
   ...props
 }) => {
   const [importer, setImporter] = useState<FlatfileImporter>();
@@ -83,7 +86,7 @@ const FlatfileButton: FC<
     if (!importer) {
       return;
     }
-    importer.requestDataFromUser().then(dataHandler, () => onCancel?.());
+    importer.requestDataFromUser(source).then(dataHandler, () => onCancel?.());
   };
   if (!importer) {
     return <></>;

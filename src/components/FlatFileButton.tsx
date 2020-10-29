@@ -31,7 +31,7 @@ const FlatfileButton: FC<
       importer: FlatfileImporter,
       launch: () => void
     ) => React.ReactElement;
-    source?: LoadOptionsObject;
+    source?: LoadOptionsObject['source'];
   }
 > = ({
   settings,
@@ -86,7 +86,9 @@ const FlatfileButton: FC<
     if (!importer) {
       return;
     }
-    importer.requestDataFromUser({ source }).then(dataHandler, () => onCancel?.());
+    importer
+      .requestDataFromUser({ source })
+      .then(dataHandler, () => onCancel?.());
   };
   if (!importer) {
     return <></>;

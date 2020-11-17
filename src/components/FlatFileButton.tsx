@@ -32,6 +32,7 @@ const FlatfileButton: FC<
       launch: () => void
     ) => React.ReactElement;
     source?: LoadOptionsObject['source'];
+    mountUrl?: string;
   }
 > = ({
   settings,
@@ -45,10 +46,14 @@ const FlatfileButton: FC<
   children,
   render,
   source,
+  mountUrl,
   ...props
 }) => {
   const [importer, setImporter] = useState<FlatfileImporter>();
   useEffect(() => {
+    if (mountUrl) {
+      FlatfileImporter.setMountUrl(mountUrl);
+    }
     const tempImporter = new FlatfileImporter(licenseKey, settings, customer);
     if (fieldHooks) {
       for (const key in fieldHooks) {

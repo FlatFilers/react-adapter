@@ -1,6 +1,6 @@
 {
   "name": "@flatfile/react",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "React Flatfile Adapter",
   "main": "dist/index.js",
   "scripts": {

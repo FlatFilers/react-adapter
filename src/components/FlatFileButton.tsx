@@ -5,7 +5,12 @@ import { IDataHookResponse } from '@flatfile/adapter/build/main/obj.validation-r
 import FlatfileResults from '@flatfile/adapter/build/main/results';
 import React, { FC, useEffect, useState } from 'react';
 
-import { IDictionary, ScalarDictionaryWithCustom } from '../interfaces/general';
+import {
+  IBeforeFetchRequest,
+  IBeforeFetchResponse,
+  IDictionary,
+  ScalarDictionaryWithCustom,
+} from '../interfaces/general';
 import { ISettings } from '../interfaces/settings';
 
 const FlatfileButton: FC<
@@ -16,6 +21,7 @@ const FlatfileButton: FC<
     settings: ISettings;
     licenseKey: string;
     customer: CustomerObject;
+    onBeforeFetch?: (req: IBeforeFetchRequest) => IBeforeFetchResponse;
     onCancel?: () => void;
     onData?: (results: FlatfileResults) => Promise<string | void>;
     onRecordChange?: (
@@ -38,6 +44,7 @@ const FlatfileButton: FC<
   settings,
   licenseKey,
   customer,
+  onBeforeFetch,
   onCancel,
   onData,
   onRecordChange,
@@ -59,6 +66,9 @@ const FlatfileButton: FC<
       for (const key in fieldHooks) {
         tempImporter.registerFieldHook(key, fieldHooks[key]);
       }
+    }
+    if (onBeforeFetch) {
+      tempImporter.registerBeforeFetchCallback(onBeforeFetch);
     }
     if (onRecordChange || onRecordInit) {
       // @ts-ignore

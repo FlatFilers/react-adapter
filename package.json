@@ -1,6 +1,6 @@
 {
   "name": "@flatfile/react",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "React Flatfile Adapter",
   "main": "dist/index.js",
   "scripts": {
@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/FlatFilers/react-adapter#readme",
   "dependencies": {
-    "@flatfile/adapter": "^2.1.4"
+    "@flatfile/adapter": "^2.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",

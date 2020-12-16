@@ -78,7 +78,7 @@ export const mount = (doc: Document) => {
         console.log('cancel');
       }}
       render={(importer, launch) => {
-        return <a onClick={launch}>updload here</a>;
+        return <a onClick={launch}>upload here</a>;
       }}
       source={data}
     >

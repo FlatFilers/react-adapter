@@ -11,6 +11,16 @@ export interface IValidationResponse {
   level?: IWarningLevel;
 }
 
+export interface IBeforeFetchRequest {
+  operation: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  variables: Record<string, any>;
+}
+
+export interface IBeforeFetchResponse {
+  headers?: Record<string, string>;
+}
+
 export type ScalarDictionaryWithCustom = {
   $custom?: ScalarDictionary;
   [key: string]: Nullable<IPrimitive> | ScalarDictionary;

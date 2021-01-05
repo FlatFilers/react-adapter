@@ -87,7 +87,9 @@ const FlatfileButton: FC<
     importer?.displayLoader();
     onData?.(results).then(
       (optionalMessage?: string | void) => {
-        importer?.displaySuccess(optionalMessage || 'Success!');
+        return optionalMessage
+          ? importer?.displaySuccess(optionalMessage)
+          : null;
       },
       (error: any) =>
         importer

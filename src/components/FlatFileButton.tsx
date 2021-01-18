@@ -71,15 +71,20 @@ const FlatfileButton: FC<
       tempImporter.registerBeforeFetchCallback(onBeforeFetch);
     }
     if (onRecordChange || onRecordInit) {
-      // @ts-ignore
-      tempImporter.registerRecordHook((record, index, eventType) => {
-        if (eventType === 'init' && onRecordInit) {
-          return onRecordInit(record, index);
+      tempImporter.registerRecordHook(
+        (
+          record: ScalarDictionaryWithCustom,
+          index: number,
+          eventType: string
+        ) => {
+          if (eventType === 'init' && onRecordInit) {
+            return onRecordInit(record, index);
+          }
+          if (eventType === 'change' && onRecordChange) {
+            return onRecordChange(record, index);
+          }
         }
-        if (eventType === 'change' && onRecordChange) {
-          return onRecordChange(record, index);
-        }
-      });
+      );
     }
     setImporter(tempImporter);
   }, []);
@@ -89,7 +94,7 @@ const FlatfileButton: FC<
       (optionalMessage?: string | void) => {
         importer?.displaySuccess(optionalMessage || 'Success!');
       },
-      (error: any) =>
+      (error: unknown) =>
         importer
           ?.requestCorrectionsFromUser(
             error instanceof Error ? error.message : error

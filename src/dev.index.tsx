@@ -58,7 +58,7 @@ export const mount = (doc: Document) => {
               reject('rejected');
               errorState = false;
             } else {
-              resolve('message');
+              resolve();
             }
           }, 3000);
         });

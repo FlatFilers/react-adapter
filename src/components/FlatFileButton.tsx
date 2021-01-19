@@ -86,12 +86,9 @@ const FlatfileButton: FC<
   const dataHandler = (results: FlatfileResults) => {
     importer?.displayLoader();
     onData?.(results).then(
-      (optionalMessage?: string | void) => {
-        return optionalMessage
-          ? importer?.displaySuccess(optionalMessage)
-          : null;
-      },
-      (error: any) =>
+      (optionalMessage?: string | void) =>
+        importer?.displaySuccess(optionalMessage || undefined),
+      (error: Error | string) =>
         importer
           ?.requestCorrectionsFromUser(
             error instanceof Error ? error.message : error

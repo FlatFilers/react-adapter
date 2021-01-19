@@ -13,34 +13,34 @@ import {
 } from '../interfaces/general';
 import { ISettings } from '../interfaces/settings';
 
-const FlatfileButton: FC<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > & {
-    settings: ISettings;
-    licenseKey: string;
-    customer: CustomerObject;
-    onBeforeFetch?: (req: IBeforeFetchRequest) => IBeforeFetchResponse;
-    onCancel?: () => void;
-    onData?: (results: FlatfileResults) => Promise<string | void>;
-    onRecordChange?: (
-      data: ScalarDictionaryWithCustom,
-      index: number
-    ) => IDataHookResponse | Promise<IDataHookResponse>;
-    onRecordInit?: (
-      data: ScalarDictionaryWithCustom,
-      index: number
-    ) => IDataHookResponse | Promise<IDataHookResponse>;
-    fieldHooks?: IDictionary<FieldHookCallback>;
-    render?: (
-      importer: FlatfileImporter,
-      launch: () => void
-    ) => React.ReactElement;
-    source?: LoadOptionsObject['source'];
-    mountUrl?: string;
-  }
-> = ({
+export type FlatfileButtonProps = React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+> & {
+  settings: ISettings;
+  licenseKey: string;
+  customer: CustomerObject;
+  onBeforeFetch?: (req: IBeforeFetchRequest) => IBeforeFetchResponse;
+  onCancel?: () => void;
+  onData?: (results: FlatfileResults) => Promise<string | void>;
+  onRecordChange?: (
+    data: ScalarDictionaryWithCustom,
+    index: number
+  ) => IDataHookResponse | Promise<IDataHookResponse>;
+  onRecordInit?: (
+    data: ScalarDictionaryWithCustom,
+    index: number
+  ) => IDataHookResponse | Promise<IDataHookResponse>;
+  fieldHooks?: IDictionary<FieldHookCallback>;
+  render?: (
+    importer: FlatfileImporter,
+    launch: () => void
+  ) => React.ReactElement;
+  source?: LoadOptionsObject['source'];
+  mountUrl?: string;
+};
+
+const FlatfileButton: FC<FlatfileButtonProps> = ({
   settings,
   licenseKey,
   customer,

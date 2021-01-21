@@ -17,6 +17,12 @@ export interface IBeforeFetchRequest {
   variables: Record<string, any>;
 }
 
+export interface IInteractionEvent {
+  mousemove: number;
+  keydown: number;
+  mousedown: number;
+}
+
 export interface IBeforeFetchResponse {
   headers?: Record<string, string>;
 }

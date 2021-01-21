@@ -63,6 +63,9 @@ export const mount = (doc: Document) => {
           }, 3000);
         });
       }}
+      onInteractionEvent={(payload) => {
+        console.log('event', payload);
+      }}
       onRecordChange={(record) => {
         return { name: { value: record.name?.toString().toUpperCase() } };
       }}

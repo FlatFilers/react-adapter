@@ -9,6 +9,7 @@ import {
   IBeforeFetchRequest,
   IBeforeFetchResponse,
   IDictionary,
+  IInteractionEvent,
   ScalarDictionaryWithCustom,
 } from '../interfaces/general';
 import { ISettings } from '../interfaces/settings';
@@ -21,6 +22,7 @@ export type FlatfileButtonProps = React.DetailedHTMLProps<
   licenseKey: string;
   customer: CustomerObject;
   onBeforeFetch?: (req: IBeforeFetchRequest) => IBeforeFetchResponse;
+  onInteractionEvent?: (req: IInteractionEvent) => void;
   onCancel?: () => void;
   onData?: (results: FlatfileResults) => Promise<string | void>;
   onRecordChange?: (
@@ -44,6 +46,7 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   settings,
   licenseKey,
   customer,
+  onInteractionEvent,
   onBeforeFetch,
   onCancel,
   onData,
@@ -69,6 +72,9 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
     }
     if (onBeforeFetch) {
       tempImporter.registerBeforeFetchCallback(onBeforeFetch);
+    }
+    if (onInteractionEvent) {
+      tempImporter.registerInteractionEventCallback(onInteractionEvent);
     }
     if (onRecordChange || onRecordInit) {
       tempImporter.registerRecordHook(

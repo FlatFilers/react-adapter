@@ -9,11 +9,12 @@ import {
   IBeforeFetchRequest,
   IBeforeFetchResponse,
   IDictionary,
+  IInteractionEvent,
   ScalarDictionaryWithCustom,
 } from '../interfaces/general';
 import { ISettings } from '../interfaces/settings';
 
-export type Props = React.DetailedHTMLProps<
+export type FlatfileButtonProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 > & {
@@ -21,6 +22,7 @@ export type Props = React.DetailedHTMLProps<
   licenseKey: string;
   customer: CustomerObject;
   onBeforeFetch?: (req: IBeforeFetchRequest) => IBeforeFetchResponse;
+  onInteractionEvent?: (req: IInteractionEvent) => void;
   onCancel?: () => void;
   onData?: (results: FlatfileResults) => Promise<string | void>;
   onRecordChange?: (
@@ -40,10 +42,11 @@ export type Props = React.DetailedHTMLProps<
   mountUrl?: string;
 };
 
-const FlatfileButton: FC<Props> = ({
+const FlatfileButton: FC<FlatfileButtonProps> = ({
   settings,
   licenseKey,
   customer,
+  onInteractionEvent,
   onBeforeFetch,
   onCancel,
   onData,
@@ -70,12 +73,15 @@ const FlatfileButton: FC<Props> = ({
     if (onBeforeFetch) {
       tempImporter.registerBeforeFetchCallback(onBeforeFetch);
     }
+    if (onInteractionEvent) {
+      tempImporter.registerInteractionEventCallback(onInteractionEvent);
+    }
     if (onRecordChange || onRecordInit) {
       tempImporter.registerRecordHook(
         (
           record: ScalarDictionaryWithCustom,
           index: number,
-          eventType: string
+          eventType: 'init' | 'change'
         ) => {
           if (eventType === 'init' && onRecordInit) {
             return onRecordInit(record, index);
@@ -95,6 +101,9 @@ const FlatfileButton: FC<Props> = ({
         importer?.displaySuccess(optionalMessage || 'Success!');
       },
       (error: unknown) =>
+      (optionalMessage?: string | void) =>
+        importer?.displaySuccess(optionalMessage || undefined),
+      (error: Error | string) =>
         importer
           ?.requestCorrectionsFromUser(
             error instanceof Error ? error.message : error

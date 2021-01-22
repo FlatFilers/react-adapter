@@ -9,41 +9,44 @@ import {
   IBeforeFetchRequest,
   IBeforeFetchResponse,
   IDictionary,
+  IInteractionEvent,
   ScalarDictionaryWithCustom,
 } from '../interfaces/general';
 import { ISettings } from '../interfaces/settings';
 
-const FlatfileButton: FC<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > & {
-    settings: ISettings;
-    licenseKey: string;
-    customer: CustomerObject;
-    onBeforeFetch?: (req: IBeforeFetchRequest) => IBeforeFetchResponse;
-    onCancel?: () => void;
-    onData?: (results: FlatfileResults) => Promise<string | void>;
-    onRecordChange?: (
-      data: ScalarDictionaryWithCustom,
-      index: number
-    ) => IDataHookResponse | Promise<IDataHookResponse>;
-    onRecordInit?: (
-      data: ScalarDictionaryWithCustom,
-      index: number
-    ) => IDataHookResponse | Promise<IDataHookResponse>;
-    fieldHooks?: IDictionary<FieldHookCallback>;
-    render?: (
-      importer: FlatfileImporter,
-      launch: () => void
-    ) => React.ReactElement;
-    source?: LoadOptionsObject['source'];
-    mountUrl?: string;
-  }
-> = ({
+export type FlatfileButtonProps = React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+> & {
+  settings: ISettings;
+  licenseKey: string;
+  customer: CustomerObject;
+  onBeforeFetch?: (req: IBeforeFetchRequest) => IBeforeFetchResponse;
+  onInteractionEvent?: (req: IInteractionEvent) => void;
+  onCancel?: () => void;
+  onData?: (results: FlatfileResults) => Promise<string | void>;
+  onRecordChange?: (
+    data: ScalarDictionaryWithCustom,
+    index: number
+  ) => IDataHookResponse | Promise<IDataHookResponse>;
+  onRecordInit?: (
+    data: ScalarDictionaryWithCustom,
+    index: number
+  ) => IDataHookResponse | Promise<IDataHookResponse>;
+  fieldHooks?: IDictionary<FieldHookCallback>;
+  render?: (
+    importer: FlatfileImporter,
+    launch: () => void
+  ) => React.ReactElement;
+  source?: LoadOptionsObject['source'];
+  mountUrl?: string;
+};
+
+const FlatfileButton: FC<FlatfileButtonProps> = ({
   settings,
   licenseKey,
   customer,
+  onInteractionEvent,
   onBeforeFetch,
   onCancel,
   onData,
@@ -70,26 +73,33 @@ const FlatfileButton: FC<
     if (onBeforeFetch) {
       tempImporter.registerBeforeFetchCallback(onBeforeFetch);
     }
+    if (onInteractionEvent) {
+      tempImporter.registerInteractionEventCallback(onInteractionEvent);
+    }
     if (onRecordChange || onRecordInit) {
-      // @ts-ignore
-      tempImporter.registerRecordHook((record, index, eventType) => {
-        if (eventType === 'init' && onRecordInit) {
-          return onRecordInit(record, index);
+      tempImporter.registerRecordHook(
+        (
+          record: ScalarDictionaryWithCustom,
+          index: number,
+          eventType: 'init' | 'change'
+        ) => {
+          if (eventType === 'init' && onRecordInit) {
+            return onRecordInit(record, index);
+          }
+          if (eventType === 'change' && onRecordChange) {
+            return onRecordChange(record, index);
+          }
         }
-        if (eventType === 'change' && onRecordChange) {
-          return onRecordChange(record, index);
-        }
-      });
+      );
     }
     setImporter(tempImporter);
   }, []);
   const dataHandler = (results: FlatfileResults) => {
     importer?.displayLoader();
     onData?.(results).then(
-      (optionalMessage?: string | void) => {
-        importer?.displaySuccess(optionalMessage || 'Success!');
-      },
-      (error: any) =>
+      (optionalMessage?: string | void) =>
+        importer?.displaySuccess(optionalMessage || undefined),
+      (error: Error | string) =>
         importer
           ?.requestCorrectionsFromUser(
             error instanceof Error ? error.message : error

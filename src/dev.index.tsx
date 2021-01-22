@@ -58,10 +58,13 @@ export const mount = (doc: Document) => {
               reject('rejected');
               errorState = false;
             } else {
-              resolve('message');
+              resolve();
             }
           }, 3000);
         });
+      }}
+      onInteractionEvent={(payload) => {
+        console.log('event', payload);
       }}
       onRecordChange={(record) => {
         return { name: { value: record.name?.toString().toUpperCase() } };

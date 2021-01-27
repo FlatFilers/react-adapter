@@ -65,9 +65,9 @@ export interface ISettings {
   i18nOverrides?:
     | IDictionary<IDictionary<string>>
     | IDictionary<{
-        otherLocales: string[];
-        setLanguage: string | undefined;
-        overrides: IDictionary<string>;
+        otherLocales?: string[];
+        setLanguage?: string;
+        overrides: IDictionary<string | IDictionary<string>>;
       }>;
 
   /**

@@ -24,7 +24,7 @@ export type FlatfileButtonProps = React.DetailedHTMLProps<
   onBeforeFetch?: (req: IBeforeFetchRequest) => IBeforeFetchResponse;
   onInteractionEvent?: (req: IInteractionEvent) => void;
   onCancel?: () => void;
-  onData?: (results: FlatfileResults) => Promise<string | void>;
+  onData?: (results: FlatfileResults) => Promise<string | void | null>;
   onRecordChange?: (
     data: ScalarDictionaryWithCustom,
     index: number
@@ -97,9 +97,9 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   const dataHandler = (results: FlatfileResults) => {
     importer?.displayLoader();
     onData?.(results).then(
-      (optionalMessage?: string | void) =>
-        optionalMessage
-          ? importer?.displaySuccess(optionalMessage)
+      (optionalMessage) =>
+        optionalMessage !== null
+          ? importer?.displaySuccess(optionalMessage || undefined)
           : importer?.close(),
       (error: Error | string) =>
         importer

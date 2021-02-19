@@ -98,7 +98,9 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
     importer?.displayLoader();
     onData?.(results).then(
       (optionalMessage?: string | void) =>
-        importer?.displaySuccess(optionalMessage || undefined),
+        optionalMessage
+          ? importer?.displaySuccess(optionalMessage)
+          : importer?.close(),
       (error: Error | string) =>
         importer
           ?.requestCorrectionsFromUser(

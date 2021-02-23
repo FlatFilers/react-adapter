@@ -1,6 +1,6 @@
 import FlatfileImporter from '@flatfile/adapter';
+import { ISettings as FlatfileSettings } from '@flatfile/adapter/build/main/obj.settings';
 import FlatfileResults from '@flatfile/adapter/build/main/results';
-import { ISettings as FlatfileSettings } from 'interfaces/settings';
 
 import FlatfileButton from './components/FlatFileButton';
 

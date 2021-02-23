@@ -1,18 +1,17 @@
 import FlatfileImporter, { FieldHookCallback } from '@flatfile/adapter';
+import {
+  IBeforeFetchRequest,
+  IBeforeFetchResponse,
+} from '@flatfile/adapter/build/main/obj.before-fetch';
 import CustomerObject from '@flatfile/adapter/build/main/obj.customer';
+import { IInteractionEvent } from '@flatfile/adapter/build/main/obj.interaction-event';
 import LoadOptionsObject from '@flatfile/adapter/build/main/obj.load-options';
+import { ISettings } from '@flatfile/adapter/build/main/obj.settings';
 import { IDataHookResponse } from '@flatfile/adapter/build/main/obj.validation-response';
 import FlatfileResults from '@flatfile/adapter/build/main/results';
 import React, { FC, useEffect, useState } from 'react';
 
-import {
-  IBeforeFetchRequest,
-  IBeforeFetchResponse,
-  IDictionary,
-  IInteractionEvent,
-  ScalarDictionaryWithCustom,
-} from '../interfaces/general';
-import { ISettings } from '../interfaces/settings';
+import { IDictionary, ScalarDictionaryWithCustom } from '../interfaces/general';
 
 export type FlatfileButtonProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,

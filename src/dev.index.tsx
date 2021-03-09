@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { FlatfileButton } from './index';
+import { FlatfileButton, FlatfileSettings } from './index';
 
-const config = {
+const config: FlatfileSettings = {
   type: 'test import',
   fields: [
     { label: 'name', key: 'name' },

@@ -26,4 +26,4 @@ This will give you access to the `<FlatfileButton />` component as well as the s
 |`render`- An optional way to pass in your own elements to render inside the FlatfileButton Component.|Optional. <br />function |`render={`<br />`(`[`FlatfileImporter`](https://developers.flatfile.io/docs/sdk/classes/flatfileimporter)`, `[`launch`](https://github.com/FlatFilers/react-adapter/blob/master/src/components/FlatFileButton.tsx#L83)`) => return ReactElement}`|
 |`preload`- An optional flag that can be set to `false` to delay loading the importer until the button is clicked. Useful in situations where there is more than one `<FlatfileButton/>` instance on a single page or minimizing page load size is important. Default is `true`.|Optional. <br />boolean |`preload={false}`|
 
-Try our example in [CodesandBox](https://codesandbox.io/s/react-flatfile-component-5l4le).
+Try our example in [CodeSandbox](https://codesandbox.io/s/react-flatfile-component-5l4le).

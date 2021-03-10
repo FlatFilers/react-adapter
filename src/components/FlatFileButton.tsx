@@ -9,7 +9,7 @@ import LoadOptionsObject from '@flatfile/adapter/build/main/obj.load-options';
 import { ISettings } from '@flatfile/adapter/build/main/obj.settings';
 import { IDataHookResponse } from '@flatfile/adapter/build/main/obj.validation-response';
 import FlatfileResults from '@flatfile/adapter/build/main/results';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 
 import { IDictionary, ScalarDictionaryWithCustom } from '../interfaces/general';
 
@@ -34,11 +34,12 @@ export type FlatfileButtonProps = React.DetailedHTMLProps<
   ) => IDataHookResponse | Promise<IDataHookResponse>;
   fieldHooks?: IDictionary<FieldHookCallback>;
   render?: (
-    importer: FlatfileImporter,
+    importer: FlatfileImporter | undefined,
     launch: () => void
   ) => React.ReactElement;
   source?: LoadOptionsObject['source'];
   mountUrl?: string;
+  preload?: boolean;
 };
 
 const FlatfileButton: FC<FlatfileButtonProps> = ({
@@ -56,10 +57,18 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   render,
   source,
   mountUrl,
+  preload = true,
   ...props
 }) => {
+  const importerLoaded = useRef(false);
   const [importer, setImporter] = useState<FlatfileImporter>();
-  useEffect(() => {
+  const loadImporter = () => {
+    if (importerLoaded.current) {
+      return;
+    }
+
+    importerLoaded.current = true;
+
     if (mountUrl) {
       FlatfileImporter.setMountUrl(mountUrl);
     }
@@ -92,6 +101,13 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
       );
     }
     setImporter(tempImporter);
+
+    return tempImporter;
+  };
+  useEffect(() => {
+    if (preload) {
+      loadImporter();
+    }
   }, []);
   const dataHandler = (results: FlatfileResults) => {
     importer?.displayLoader();
@@ -110,13 +126,19 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   };
   const launch = () => {
     if (!importer) {
+      if (!preload) {
+        loadImporter()
+          ?.requestDataFromUser({ source })
+          .then(dataHandler, () => onCancel?.());
+      }
+
       return;
     }
     importer
       .requestDataFromUser({ source })
       .then(dataHandler, () => onCancel?.());
   };
-  if (!importer) {
+  if (!importer && preload) {
     return <></>;
   }
   return render ? (

@@ -9,7 +9,7 @@ import LoadOptionsObject from '@flatfile/adapter/build/main/obj.load-options';
 import { ISettings } from '@flatfile/adapter/build/main/obj.settings';
 import { IDataHookResponse } from '@flatfile/adapter/build/main/obj.validation-response';
 import FlatfileResults from '@flatfile/adapter/build/main/results';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import { IDictionary, ScalarDictionaryWithCustom } from '../interfaces/general';
 
@@ -60,15 +60,12 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   preload = true,
   ...props
 }) => {
-  const importerLoaded = useRef(false);
-  const [importer, setImporter] = useState<FlatfileImporter>();
+  const importerRef = useRef<FlatfileImporter>();
+  const [loaded, setLoaded] = useState(false);
   const loadImporter = () => {
-    if (importerLoaded.current) {
+    if (importerRef.current) {
       return;
     }
-
-    importerLoaded.current = true;
-
     if (mountUrl) {
       FlatfileImporter.setMountUrl(mountUrl);
     }
@@ -100,49 +97,48 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
         }
       );
     }
-    setImporter(tempImporter);
-
-    return tempImporter;
+    importerRef.current = tempImporter;
+    setLoaded(true);
   };
   useEffect(() => {
     if (preload) {
       loadImporter();
     }
   }, []);
-  const dataHandler = (results: FlatfileResults) => {
-    importer?.displayLoader();
-    onData?.(results).then(
-      (optionalMessage) =>
-        optionalMessage !== null
-          ? importer?.displaySuccess(optionalMessage || undefined)
-          : importer?.close(),
-      (error: Error | string) =>
-        importer
-          ?.requestCorrectionsFromUser(
-            error instanceof Error ? error.message : error
-          )
-          .then(dataHandler, () => onCancel?.())
-    );
-  };
+  const dataHandler = useCallback(
+    (results: FlatfileResults) => {
+      importerRef.current?.displayLoader();
+      onData?.(results).then(
+        (optionalMessage) =>
+          optionalMessage !== null
+            ? importerRef.current?.displaySuccess(optionalMessage || undefined)
+            : importerRef.current?.close(),
+        (error: Error | string) =>
+          importerRef.current
+            ?.requestCorrectionsFromUser(
+              error instanceof Error ? error.message : error
+            )
+            .then(dataHandler, () => onCancel?.())
+      );
+    },
+    [onData, onCancel]
+  );
   const launch = () => {
-    if (!importer) {
-      if (!preload) {
-        loadImporter()
-          ?.requestDataFromUser({ source })
-          .then(dataHandler, () => onCancel?.());
+    if (!importerRef.current) {
+      if (preload) {
+        return;
       }
-
-      return;
+      loadImporter();
     }
-    importer
-      .requestDataFromUser({ source })
+    importerRef.current
+      ?.requestDataFromUser({ source })
       .then(dataHandler, () => onCancel?.());
   };
-  if (!importer && preload) {
+  if (!loaded && preload) {
     return <></>;
   }
   return render ? (
-    render(importer, launch)
+    render(importerRef.current, launch)
   ) : (
     <button {...props} onClick={launch}>
       {children}

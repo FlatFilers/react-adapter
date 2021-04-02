@@ -2,6 +2,8 @@
 
 We've made it really simple for you to get started with Flatfile with our new Flatfile Component. Here's what you'll need to know to get started.
 
+_*Important note:*_ While the below info is a basic way to get up and running, we recommend reading the developer docs &rarr; https://flatfile.io/developers/react/getting-started
+
 First, install the dependency via npm:
 
 `npm install @flatfile/react`

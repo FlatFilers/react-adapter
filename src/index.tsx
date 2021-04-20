@@ -1,7 +1,21 @@
-import FlatfileImporter from '@flatfile/adapter';
-import { ISettings as FlatfileSettings } from '@flatfile/adapter/build/main/obj.settings';
-import FlatfileResults from '@flatfile/adapter/build/main/results';
+import FlatfileImporter, {
+  CustomerObject as FlatfileCustomer,
+  FieldHookCallback,
+  FlatfileResults,
+  IDataHookResponse,
+} from '@flatfile/adapter';
+import { ISettings as FlatfileSettings } from '@flatfile/adapter';
 
 import FlatfileButton from './components/FlatFileButton';
 
-export { FlatfileButton, FlatfileImporter, FlatfileResults, FlatfileSettings };
+export * from './interfaces/general';
+
+export {
+  FlatfileButton,
+  FlatfileCustomer,
+  FlatfileImporter,
+  FlatfileResults,
+  FieldHookCallback,
+  IDataHookResponse,
+  FlatfileSettings,
+};

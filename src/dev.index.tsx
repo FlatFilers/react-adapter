@@ -9,7 +9,10 @@ const config: FlatfileSettings = {
     { label: 'Email', key: 'email' },
   ],
 };
-const license = 'aa921983-4db2-4da1-a580-fbca0b1c75b2';
+/**
+ * @NOTE Apply your license key here
+ */
+const license = 'YOUR_LICENSE_KEY_HERE';
 const customer = { userId: '12345' };
 
 const data = [

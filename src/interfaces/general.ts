@@ -1,13 +1,6 @@
-export type ScalarDictionary = IDictionary<Nullable<IPrimitive>>;
-
-export interface IDictionary<V = string> {
-  [key: string]: V;
-}
+import { IPrimitive, Nullable, ScalarDictionary } from '@flatfile/adapter';
 
 export type ScalarDictionaryWithCustom = {
   $custom?: ScalarDictionary;
   [key: string]: Nullable<IPrimitive> | ScalarDictionary;
 };
-
-export type IPrimitive = string | number | boolean;
-export type Nullable<T> = T | undefined | null;

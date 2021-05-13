@@ -89,8 +89,8 @@
     }
   },
   "jest": {
-    "setupFiles": [
-      "./jest.setup.js"
+    "setupFilesAfterEnv": [
+      "./jest.setup.ts"
     ],
     "roots": [
       "<rootDir>/src"

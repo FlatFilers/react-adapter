@@ -12,7 +12,10 @@ import FlatfileImporter, {
 } from '@flatfile/adapter';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 
-import { ScalarDictionaryWithCustom } from '../interfaces/general';
+import {
+  ICorrectionsFromUser,
+  ScalarDictionaryWithCustom,
+} from '../interfaces/general';
 
 export type FlatfileButtonProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -114,12 +117,14 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
           optionalMessage !== null
             ? importerRef.current?.displaySuccess(optionalMessage || undefined)
             : importerRef.current?.close(),
-        (error: Error | string) =>
+        (error: Error | string | ICorrectionsFromUser) => {
           importerRef.current
             ?.requestCorrectionsFromUser(
-              error instanceof Error ? error.message : error
+              (error as Error | ICorrectionsFromUser)?.message ?? error,
+              (error as ICorrectionsFromUser)?.corrections ?? undefined
             )
-            .then(dataHandler, () => onCancel?.())
+            .then(dataHandler, () => onCancel?.());
+        }
       );
     },
     [onData, onCancel]

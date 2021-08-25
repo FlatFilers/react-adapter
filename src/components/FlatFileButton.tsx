@@ -108,6 +108,10 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
     if (preload) {
       loadImporter();
     }
+
+    return () => {
+      importerRef.current?.destroy();
+    };
   }, []);
   const dataHandler = useCallback(
     (results: FlatfileResults) => {

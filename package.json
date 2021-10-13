@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/FlatFilers/react-adapter#readme",
   "dependencies": {
-    "@flatfile/adapter": "^2.9.0"
+    "@flatfile/sdk": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",

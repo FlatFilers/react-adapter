@@ -2,6 +2,31 @@
 
 We've made it really simple for you to get started with Flatfile with our new Flatfile Component. Here's what you'll need to know to get started.
 
+## Getting started with Embed
+
+First, install t`he dependency via npm:
+
+`npm install @flatfile/react@^3 --save`
+
+### The FlatfileButton usage
+
+```js
+import { FlatfileButton } from '@flatfile/react'
+
+<FlatfileButton
+  token={'YOUR_JWT'}
+  onInit={({ batchId }) => console.log(`Flatfile importer is launched with batchId: ${batchId}`)}
+  onComplete={async (payload) => {
+    const SAMPLE_DATA = true
+    console.log(JSON.stringify(await payload.data(SAMPLE_DATA), null, 4))
+  }}
+  onError={(err) => console.error(err)}
+/>
+
+```
+
+## Getting started with Portal
+
 _*Important note:*_ While the below info is a basic way to get up and running, we recommend reading the developer docs &rarr; https://flatfile.io/developers/react/getting-started
 
 First, install the dependency via npm:
@@ -10,7 +35,7 @@ First, install the dependency via npm:
 
 This will give you access to the `<FlatfileButton />` component as well as the same basic functionality as our Adapter.
 
-## The FlatfileButton usage
+### The FlatfileButton usage
 
 `import { FlatfileButton } from '@flatfile/react'`
 

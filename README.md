@@ -4,7 +4,7 @@ We've made it really simple for you to get started with Flatfile with our new Fl
 
 ## Getting started with Embed
 
-First, install t`he dependency via npm:
+First, install the dependency via npm:
 
 `npm install @flatfile/react@^3 --save`
 

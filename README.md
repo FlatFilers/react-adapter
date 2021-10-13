@@ -6,7 +6,7 @@ We've made it really simple for you to get started with Flatfile with our new Fl
 
 First, create an Embed in the [Flatfile dashboard](https://app.flatfile.io/). Next, install the dependency via npm:
 
-`npm install @flatfile/react@^3 --save`
+`npm install @flatfile/react --save`
 
 ### The FlatfileButton usage
 
@@ -31,7 +31,7 @@ _*Important note:*_ While the below info is a basic way to get up and running, w
 
 First, install the dependency via npm:
 
-`npm install @flatfile/react`
+`npm install @flatfile/react@^0 --save`
 
 This will give you access to the `<FlatfileButton />` component as well as the same basic functionality as our Adapter.
 

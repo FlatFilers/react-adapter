@@ -27,22 +27,22 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   children,
 }) => {
   const importer = useMemo(() => {
-    const i = flatfileImporter(token);
+    const _importer = flatfileImporter(token);
 
     if (typeof onInit === 'function') {
-      i.on('init', onInit);
+      _importer.on('init', onInit);
     }
     if (typeof onLaunch === 'function') {
-      i.on('launch', onLaunch);
+      _importer.on('launch', onLaunch);
     }
     if (typeof onClose === 'function') {
-      i.on('close', onClose);
+      _importer.on('close', onClose);
     }
     if (typeof onComplete === 'function') {
-      i.on('complete', onComplete);
+      _importer.on('complete', onComplete);
     }
 
-    return i;
+    return _importer;
   }, [token]);
 
   return render ? (

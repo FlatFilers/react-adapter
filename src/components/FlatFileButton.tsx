@@ -3,6 +3,8 @@ import React, { FC, useMemo } from 'react';
 
 export type FlatfileButtonProps = {
   token: string;
+  mountUrl?: string;
+  apiUrl?: string;
   onInit?: (p: IEvents['init']) => void;
   onLaunch?: (p: IEvents['launch']) => void;
   onClose?: () => void;
@@ -17,6 +19,8 @@ export type FlatfileButtonProps = {
 
 const FlatfileButton: FC<FlatfileButtonProps> = ({
   token,
+  mountUrl,
+  apiUrl,
   onInit,
   onLaunch,
   onClose,
@@ -27,7 +31,10 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   children,
 }) => {
   const importer = useMemo(() => {
-    const _importer = flatfileImporter(token);
+    const _importer = flatfileImporter(token, {
+      ...(mountUrl ? { mountUrl } : {}),
+      ...(apiUrl ? { apiUrl } : {}),
+    });
 
     if (typeof onInit === 'function') {
       _importer.on('init', onInit);

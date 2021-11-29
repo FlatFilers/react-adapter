@@ -13,6 +13,8 @@ export const mount = (doc: Document) => {
   render(
     <FlatfileButton
       token={token}
+      mountUrl='http://localhost:8080'
+      apiUrl='http://localhost:3000'
       onInit={(payload) => {
         console.log(payload);
       }}

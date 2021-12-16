@@ -34,6 +34,7 @@ First, install the dependency via npm:
 `npm install @flatfile/react@^0 --save`
 
 This will give you access to the `<FlatfileButton />` component as well as the same basic functionality as our Adapter.
+Note that this installs the latest 0.x version which supports Portal importers. The 3.x version is intended for Embeds.
 
 ### The FlatfileButton usage
 

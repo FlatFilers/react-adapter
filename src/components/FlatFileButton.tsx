@@ -10,7 +10,7 @@ export type FlatfileButtonProps = {
   onClose?: () => void;
   onComplete?: (p: IEvents['complete']) => void;
   onError?: (e: Error) => void;
-  render?: (launch: () => void) => React.ReactElement;
+  render?: (payload: { launch: () => void }) => React.ReactElement;
   buttonProps?: React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
@@ -53,7 +53,7 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   }, [token]);
 
   return render ? (
-    render(handleLaunch)
+    render({ launch: handleLaunch })
   ) : (
     <button {...buttonProps} onClick={() => handleLaunch()}>
       {children}

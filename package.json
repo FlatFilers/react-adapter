@@ -5,12 +5,13 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "NODE_ENV=production tsc",
-    "lint": "eslint . --ext '.ts,.tsx'",
     "lint:fix": "eslint . --ext '.ts,.tsx' --fix",
+    "lint": "eslint . --ext '.ts,.tsx'",
     "prebuild": "rm -rf ./dist",
+    "prepack": "npm run build",
     "start": "webpack-dev-server -d --progress --config webpack.dev.js",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test": "jest"
   },
   "browser": {
     "src/*": "~/src/*"

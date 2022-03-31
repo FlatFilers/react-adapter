@@ -1,5 +1,5 @@
-import { flatfileImporter, IEvents, IFlatfileImporter } from '@flatfile/sdk';
-import React, { FC, useMemo } from 'react';
+import { flatfileImporter, IEvents } from '@flatfile/sdk';
+import React, { FC, useCallback } from 'react';
 
 export type FlatfileButtonProps = {
   token: string;
@@ -10,7 +10,7 @@ export type FlatfileButtonProps = {
   onClose?: () => void;
   onComplete?: (p: IEvents['complete']) => void;
   onError?: (e: Error) => void;
-  render?: (importer: IFlatfileImporter) => React.ReactElement;
+  render?: (payload: { launch: () => void }) => React.ReactElement;
   buttonProps?: React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
@@ -30,35 +30,32 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   render,
   children,
 }) => {
-  const importer = useMemo(() => {
-    const _importer = flatfileImporter(token, {
+  const handleLaunch = useCallback(() => {
+    const importer = flatfileImporter(token, {
       ...(mountUrl ? { mountUrl } : {}),
       ...(apiUrl ? { apiUrl } : {}),
     });
 
     if (typeof onInit === 'function') {
-      _importer.on('init', onInit);
+      importer.on('init', onInit);
     }
     if (typeof onLaunch === 'function') {
-      _importer.on('launch', onLaunch);
+      importer.on('launch', onLaunch);
     }
     if (typeof onClose === 'function') {
-      _importer.on('close', onClose);
+      importer.on('close', onClose);
     }
     if (typeof onComplete === 'function') {
-      _importer.on('complete', onComplete);
+      importer.on('complete', onComplete);
     }
 
-    return _importer;
+    importer.launch().catch((e: Error) => onError?.(e));
   }, [token]);
 
   return render ? (
-    render(importer)
+    render({ launch: handleLaunch })
   ) : (
-    <button
-      {...buttonProps}
-      onClick={() => importer.launch().catch((e: Error) => onError?.(e))}
-    >
+    <button {...buttonProps} onClick={() => handleLaunch()}>
       {children}
     </button>
   );

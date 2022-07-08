@@ -1,12 +1,12 @@
-import { flatfileImporter, IEvents } from '@flatfile/sdk';
+import { Flatfile, IEvents, IteratorCallback } from '@flatfile/sdk';
 import React, { FC, useCallback } from 'react';
 
 export type FlatfileButtonProps = {
-  token: string;
+  token: string |  (() => string | Promise<string>);
   mountUrl?: string;
   apiUrl?: string;
-  onInit?: (p: IEvents['init']) => void;
-  onLaunch?: (p: IEvents['launch']) => void;
+  onInit?: (p: IEvents['init']['meta']) => void;
+  onData?: IteratorCallback;
   onClose?: () => void;
   onComplete?: (p: IEvents['complete']) => void;
   onError?: (e: Error) => void;
@@ -22,8 +22,7 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   mountUrl,
   apiUrl,
   onInit,
-  onLaunch,
-  onClose,
+  onData,
   onComplete,
   onError,
   buttonProps,
@@ -31,25 +30,19 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   children,
 }) => {
   const handleLaunch = useCallback(() => {
-    const importer = flatfileImporter(token, {
+    return Flatfile.requestDataFromUser({
+      token,
       ...(mountUrl ? { mountUrl } : {}),
       ...(apiUrl ? { apiUrl } : {}),
+      onData,
+      onComplete,
+      ...(typeof onInit === 'function'
+        ? { onInit: ({ meta }) => onInit?.(meta) }
+        : {}),
+      ...(typeof onError === 'function'
+        ? { onError: ({ error }) => onError?.(error) }
+        : {}),
     });
-
-    if (typeof onInit === 'function') {
-      importer.on('init', onInit);
-    }
-    if (typeof onLaunch === 'function') {
-      importer.on('launch', onLaunch);
-    }
-    if (typeof onClose === 'function') {
-      importer.on('close', onClose);
-    }
-    if (typeof onComplete === 'function') {
-      importer.on('complete', onComplete);
-    }
-
-    importer.launch().catch((e: Error) => onError?.(e));
   }, [token]);
 
   return render ? (

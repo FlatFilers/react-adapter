@@ -18,9 +18,6 @@ export const mount = (doc: Document) => {
       onInit={(payload) => {
         console.log(payload);
       }}
-      onLaunch={(payload) => {
-        console.log(payload);
-      }}
       onError={(payload) => {
         console.log(payload);
       }}

@@ -21,9 +21,6 @@ export const mount = (doc: Document) => {
       onError={(payload) => {
         console.log(payload);
       }}
-      onClose={() => {
-        console.log('closed');
-      }}
       onComplete={async (payload) => {
         console.log(payload);
 

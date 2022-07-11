@@ -1,15 +1,7 @@
-import { Flatfile, IEvents, IteratorCallback } from '@flatfile/sdk';
+import { DataRequestConfig, Flatfile } from '@flatfile/sdk';
 import React, { FC, useCallback } from 'react';
 
-export type FlatfileButtonProps = {
-  token: string |  (() => string | Promise<string>);
-  mountUrl?: string;
-  apiUrl?: string;
-  onInit?: (p: IEvents['init']['meta']) => void;
-  onData?: IteratorCallback;
-  onClose?: () => void;
-  onComplete?: (p: IEvents['complete']) => void;
-  onError?: (e: Error) => void;
+export type FlatfileButtonProps = DataRequestConfig & {
   render?: (payload: { launch: () => void }) => React.ReactElement;
   buttonProps?: React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -18,9 +10,18 @@ export type FlatfileButtonProps = {
 };
 
 const FlatfileButton: FC<FlatfileButtonProps> = ({
+  open,
+  theme,
   token,
   mountUrl,
   apiUrl,
+  autoContinue,
+  customFields,
+  chunkSize,
+  mountOn,
+  embedId,
+  org,
+  user,
   onInit,
   onData,
   onComplete,
@@ -31,17 +32,22 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
 }) => {
   const handleLaunch = useCallback(() => {
     return Flatfile.requestDataFromUser({
+      open,
+      theme,
       token,
-      ...(mountUrl ? { mountUrl } : {}),
-      ...(apiUrl ? { apiUrl } : {}),
+      embedId,
+      org,
+      user,
+      mountUrl,
+      apiUrl,
+      autoContinue,
+      customFields,
+      chunkSize,
+      mountOn,
+      onInit,
       onData,
       onComplete,
-      ...(typeof onInit === 'function'
-        ? { onInit: ({ meta }) => onInit?.(meta) }
-        : {}),
-      ...(typeof onError === 'function'
-        ? { onError: ({ error }) => onError?.(error) }
-        : {}),
+      onError,
     });
   }, [token]);
 

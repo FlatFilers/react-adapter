@@ -1,5 +1,7 @@
 # The Flatfile Component - @flatfile/react
 
+> NOTE: this component can only be used with Flatfile Portal 2.0. If you are trying to set up Flatfile Portal 3.0, please visit the Portal 3.0 docs [here](https://flatfile.com/docs/getting-started/).
+
 We've made it really simple for you to get started with Flatfile with our new Flatfile Component. Here's what you'll need to know to get started.
 
 _*Important note:*_ While the below info is a basic way to get up and running, we recommend reading the developer docs &rarr; https://flatfile.io/developers/react/getting-started

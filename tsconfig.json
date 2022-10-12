@@ -14,6 +14,7 @@
   },
   "include": [
     "src/**/*",
+    "jest.setup.ts",
     "node_modules/@types/node/globals.d.ts",
     "node_modules/@types/node/globals.d.ts",
     "node_modules/@types/webpack-env/index.d.ts"

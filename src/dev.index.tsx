@@ -18,14 +18,8 @@ export const mount = (doc: Document) => {
       onInit={(payload) => {
         console.log(payload);
       }}
-      onLaunch={(payload) => {
-        console.log(payload);
-      }}
       onError={(payload) => {
         console.log(payload);
-      }}
-      onClose={() => {
-        console.log('closed');
       }}
       onComplete={async (payload) => {
         console.log(payload);

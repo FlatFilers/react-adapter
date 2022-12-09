@@ -1,15 +1,7 @@
-import { flatfileImporter, IEvents } from '@flatfile/sdk';
+import { DataRequestConfig, Flatfile } from '@flatfile/sdk';
 import React, { FC, useCallback } from 'react';
 
-export type FlatfileButtonProps = {
-  token: string;
-  mountUrl?: string;
-  apiUrl?: string;
-  onInit?: (p: IEvents['init']) => void;
-  onLaunch?: (p: IEvents['launch']) => void;
-  onClose?: () => void;
-  onComplete?: (p: IEvents['complete']) => void;
-  onError?: (e: Error) => void;
+export type FlatfileButtonProps = DataRequestConfig & {
   render?: (payload: { launch: () => void }) => React.ReactElement;
   buttonProps?: React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -18,12 +10,20 @@ export type FlatfileButtonProps = {
 };
 
 const FlatfileButton: FC<FlatfileButtonProps> = ({
+  open,
+  theme,
   token,
   mountUrl,
   apiUrl,
+  autoContinue,
+  customFields,
+  chunkSize,
+  mountOn,
+  embedId,
+  org,
+  user,
   onInit,
-  onLaunch,
-  onClose,
+  onData,
   onComplete,
   onError,
   buttonProps,
@@ -31,25 +31,24 @@ const FlatfileButton: FC<FlatfileButtonProps> = ({
   children,
 }) => {
   const handleLaunch = useCallback(() => {
-    const importer = flatfileImporter(token, {
-      ...(mountUrl ? { mountUrl } : {}),
-      ...(apiUrl ? { apiUrl } : {}),
+    return Flatfile.requestDataFromUser({
+      open,
+      theme,
+      token,
+      embedId,
+      org,
+      user,
+      mountUrl,
+      apiUrl,
+      autoContinue,
+      customFields,
+      chunkSize,
+      mountOn,
+      onInit,
+      onData,
+      onComplete,
+      onError,
     });
-
-    if (typeof onInit === 'function') {
-      importer.on('init', onInit);
-    }
-    if (typeof onLaunch === 'function') {
-      importer.on('launch', onLaunch);
-    }
-    if (typeof onClose === 'function') {
-      importer.on('close', onClose);
-    }
-    if (typeof onComplete === 'function') {
-      importer.on('complete', onComplete);
-    }
-
-    importer.launch().catch((e: Error) => onError?.(e));
   }, [token]);
 
   return render ? (
